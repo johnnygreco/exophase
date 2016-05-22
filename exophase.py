@@ -1,16 +1,6 @@
 import numpy as np
 
-def OrbDist(TA, a, ecc):
-    """
-    Calculate orbital distance given true anamoly (TA)
-    semi-major axis (a) and eccentricity (ecc).
-    """
-    return a*(1.0 - ecc*ecc)/(1.0 + ecc*np.cos(TA))
-
-def FluxRatio(phi, dist, Ag, Rp, factor=1.0e9):
-    return Ag*np.power(Rp/dist, 2)*phi*factor
-
-class PhaseCurve:
+class ExoPhase:
     """
     This class contains the necessary functions 
     to calculate the phase curves as a function 
@@ -74,10 +64,11 @@ class PhaseCurve:
         Get t/P given the true anomaly (TA) and eccentricity (ecc).
         """
         term_1 = np.arctan2(np.tan(TA/2.0)*np.sqrt(1.0-self.ecc), np.sqrt(1.0+self.ecc))
-        if MA > np.pi: term_1 = np.pi + term_1
+        if (MA>np.pi) and (np.abs(MA-np.pi)>1e-8): 
+            term_1 = np.pi + term_1
         term_2 = (self.ecc*np.sin(TA)*np.sqrt(1.0-self.ecc*self.ecc))/(1+self.ecc*np.cos(TA))
         factor = 1.0/(2.0*np.pi)
-        t = factor*(2.0*term_1 - term_2)
+        t = (2.0*term_1 - term_2)/(2.0*np.pi)
         return t
 
     def get_phase(self, TA):
