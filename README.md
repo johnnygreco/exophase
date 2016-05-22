@@ -1,7 +1,7 @@
-Phase 
------
+ExoPhase 
+--------
 
-Tool for calculating an exoplanet's orbital phase curve as 
+Tool for calculating an exoplanet's orbital phase as 
 a function of time for an arbitrary orbit orientation.
 
 The equations that are solved are given in the appendix of 
